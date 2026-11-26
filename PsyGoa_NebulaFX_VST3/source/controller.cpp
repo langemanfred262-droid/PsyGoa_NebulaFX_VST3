@@ -29,6 +29,10 @@ tresult PLUGIN_API Controller::initialize(FUnknown* c) {
 }
 }
 BEGIN_FACTORY_DEF("Nebula Audio Labs","https://example.invalid","support@example.invalid")
- DEF_CLASS2(INLINE_UID_FROM_FUID(Nebula::ProcessorUID), PClassInfo::kManyInstances, kVstAudioEffectClass, "PsyGoa NebulaFX", Vst::kDistributable, "Fx|Filter", Nebula::Processor::createInstance, "2.0.0")
- DEF_CLASS2(INLINE_UID_FROM_FUID(Nebula::ControllerUID), PClassInfo::kManyInstances, kVstComponentControllerClass, "PsyGoa NebulaFX Controller", 0, "", Nebula::Controller::createInstance, "2.0.0")
+ DEF_CLASS2(INLINE_UID_FROM_FUID(Nebula::ProcessorUID), PClassInfo::kManyInstances, kVstAudioEffectClass,
+            "PsyGoa NebulaFX", Vst::kDistributable, "Fx|Filter",
+            Nebula::Processor::createInstance, "2.0.0")
+ DEF_CLASS2(INLINE_UID_FROM_FUID(Nebula::ControllerUID), PClassInfo::kManyInstances, kVstComponentControllerClass,
+            "PsyGoa NebulaFX Controller", 0, "",
+            Nebula::Controller::createInstance, "2.0.0")
 END_FACTORY
