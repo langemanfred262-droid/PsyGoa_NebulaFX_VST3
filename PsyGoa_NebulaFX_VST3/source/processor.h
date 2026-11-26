@@ -2,6 +2,7 @@
 #include "public.sdk/source/vst/vstaudioeffect.h"
 #include "plugincids.h"
 #include "pluginterfaces/vst/ivstevents.h"
+#include "pluginterfaces/base/ibstream.h"
 #include <array>
 #include <vector>
 #include <cmath>
