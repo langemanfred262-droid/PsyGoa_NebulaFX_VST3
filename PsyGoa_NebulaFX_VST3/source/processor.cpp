@@ -137,7 +137,8 @@ tresult PLUGIN_API Processor::setState(IBStream* s) {
 }
 tresult PLUGIN_API Processor::getState(IBStream* s) {
     if(!s)return kInvalidArgument;
-    int32 n=(int32)p.size(); if(s->write(&n,sizeof(n))!=kResultFalse;
+    int32 n=(int32)p.size();
+    if(s->write(&n,sizeof(n))!=kResultOk)return kResultFalse;
     return s->write(p.data(),sizeof(double)*p.size());
 }
 }
