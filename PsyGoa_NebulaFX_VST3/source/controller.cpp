@@ -6,8 +6,8 @@ using namespace Steinberg::Vst;
 namespace Nebula {
 enum { Gate=0, GateRate, GateDepth, Cutoff, Resonance, Sweep, Phaser, Flanger, ModRate, Delay, DelayFeedback, Reverb, Wet, FmMix, FmRatio, FmIndex, Output };
 
-trésult PLUGIN_API Controller::initialize(FUnknown* c) {
-    trestult r=EditController::initialize(c); if(r!=kResultOk)return r;
+tresult PLUGIN_API Controller::initialize(FUnknown* c) {
+    tresult r=EditController::initialize(c); if(r!=kResultOk)return r;
     parameters.addParameter(STR16("Trace Gate"),nullptr,1,Gate,ParameterInfo::kCanAutomate,0.0);
     parameters.addParameter(STR16("Gate Division"),nullptr,4,GateRate,ParameterInfo::kCanAutomate,0.5);
     parameters.addParameter(STR16("Gate Depth"),nullptr,0,GateDepth,ParameterInfo::kCanAutomate,1.0);
@@ -29,6 +29,6 @@ trésult PLUGIN_API Controller::initialize(FUnknown* c) {
 }
 }
 BEGIN_FACTORY_DEF("Nebula Audio Labs","https://example.invalid","support@example.invalid")
- DEF_CLASS2(INLINE_UID_FROM_FUID(Nebula::ProcessorUID), PClassInfo::kManyInstances, kVstAudioEffectClass, PGNEBULA_PLUGIN, Vst::kDistributable, "Fx|Filter", Nebula::Processor::createInstance, "2.0.0", kVstVersionString)
- DEF_CLASS2(INLINE_UID_FROM_FUID(Nebula::ControllerUID), PClassInfo::kManyInstances, kVstComponentControllerClass, "PsyGoa NebulaFX Controller", 0, "", Nebula::Controller::createInstance, "2.0.0", kVstVersionString)
+ DEF_CLASS2(INLINE_UID_FROM_FUID(Nebula::ProcessorUID), PClassInfo::kManyInstances, kVstAudioEffectClass, "PsyGoa NebulaFX", Vst::kDistributable, "Fx|Filter", Nebula::Processor::createInstance, "2.0.0")
+ DEF_CLASS2(INLINE_UID_FROM_FUID(Nebula::ControllerUID), PClassInfo::kManyInstances, kVstComponentControllerClass, "PsyGoa NebulaFX Controller", 0, "", Nebula::Controller::createInstance, "2.0.0")
 END_FACTORY
