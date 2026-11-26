@@ -22,5 +22,10 @@ smtg_add_vst3plugin(PsyGoaNebulaFX
 )
 target_link_libraries(PsyGoaNebulaFX PRIVATE sdk)
 target_include_directories(PsyGoaNebulaFX PRIVATE source)
-smtg_target_add_plugin_resources(PsyGoaNebulaFX RESOURCES "${CMAKE_CURRENT_SOURCE_DIR}/presets")
+
+set(PRESET_RESOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/presets")
+if(IS_DIRECTORY "${PRESET_RESOURCE_DIR}")
+  smtg_target_add_plugin_resources(PsyGoaNebulaFX RESOURCES "${PRESET_RESOURCE_DIR}")
+endif()
+
 smtg_target_configure_version_file(PsyGoaNebulaFX)
