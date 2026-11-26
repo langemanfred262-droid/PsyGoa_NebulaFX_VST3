@@ -19,15 +19,20 @@ jobs:
           - macos-latest
 
     steps:
-      - name: Check out repository and submodules
+      - name: Check out plugin repository
+        uses: actions/checkout@v4
+
+      - name: Check out VST3 SDK
         uses: actions/checkout@v4
         with:
+          repository: steinbergmedia/vst3sdk
+          path: vst3sdk
           submodules: recursive
 
-      - name: Check CMake project and VST3 SDK
+      - name: Verify project and SDK files
         run: |
-          python -c "from pathlib import Path; p=Path('PsyGoa_NebulaFX_VST3/CMakeLists.txt'); print(f'Found {p}' if p.is_file() else 'ERROR: CMakeLists.txt is missing'); raise SystemExit(0 if p.is_file() else 1)"
-          python -c "from pathlib import Path; p=Path('vst3sdk/CMakeLists.txt'); print(f'Found {p}' if p.is_file() else 'ERROR: VST3 SDK is missing at vst3sdk/; check that the SDK submodule is configured'); raise SystemExit(0 if p.is_file() else 1)"
+          python -c "from pathlib import Path; p=Path('PsyGoa_NebulaFX_VST3/CMakeLists.txt'); print(f'Found {p}' if p.is_file() else 'ERROR: Project CMakeLists.txt is missing'); raise SystemExit(0 if p.is_file() else 1)"
+          python -c "from pathlib import Path; p=Path('vst3sdk/CMakeLists.txt'); print(f'Found {p}' if p.is_file() else 'ERROR: VST3 SDK is missing at vst3sdk/'); raise SystemExit(0 if p.is_file() else 1)"
 
       - name: Configure
         run: cmake -S PsyGoa_NebulaFX_VST3 -B build -DVST3_SDK_ROOT="${{ github.workspace }}/vst3sdk"
