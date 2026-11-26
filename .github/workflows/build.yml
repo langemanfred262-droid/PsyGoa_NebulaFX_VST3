@@ -1,22 +1,36 @@
 name: Build VST3
+
 on:
   push:
   pull_request:
   workflow_dispatch:
+
 jobs:
   build:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+    name: Build on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Check out repository and submodules
+        uses: actions/checkout@v4
         with:
           submodules: recursive
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.x'
+
+      - name: Check CMake project and VST3 SDK
+        run: |
+          python -c "from pathlib import Path; p=Path('PsyGoa_NebulaFX_VST3/CMakeLists.txt'); print(f'Found {p}' if p.is_file() else 'ERROR: CMakeLists.txt is missing'); raise SystemExit(0 if p.is_file() else 1)"
+          python -c "from pathlib import Path; p=Path('vst3sdk/CMakeLists.txt'); print(f'Found {p}' if p.is_file() else 'ERROR: VST3 SDK is missing at vst3sdk/; check that the SDK submodule is configured'); raise SystemExit(0 if p.is_file() else 1)"
+
       - name: Configure
-        run: cmake -S . -B build -DVST3_SDK_ROOT=${{ github.workspace }}/vst3sdk
+        run: cmake -S PsyGoa_NebulaFX_VST3 -B build -DVST3_SDK_ROOT="${{ github.workspace }}/vst3sdk"
+
       - name: Build
         run: cmake --build build --config Release --parallel
