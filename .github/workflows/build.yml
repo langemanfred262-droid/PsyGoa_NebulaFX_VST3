@@ -1,0 +1,22 @@
+name: Build VST3
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Configure
+        run: cmake -S . -B build -DVST3_SDK_ROOT=${{ github.workspace }}/vst3sdk
+      - name: Build
+        run: cmake --build build --config Release --parallel
