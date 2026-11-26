@@ -1,4 +1,3 @@
-\
 #include "processor.h"
 #include "pluginterfaces/vst/ivstparameterchanges.h"
 #include "pluginterfaces/vst/ivstprocesscontext.h"
@@ -102,7 +101,9 @@ tresult PLUGIN_API Processor::process(ProcessData& d) {
         float pR=acidR+(acidR-phR)*readParam(Phaser,.2f)*motion;
 
         float flangeMs=3.0f+2.5f*(1.f+motion);
-        size_t flangeOffset=(size_t)std::clamp(flangeMs*.001f*sr,1.f,(float)delayL.size()-1.f);
+        const float flangeSeconds=flangeMs*.001f*(float)sr;
+        const float maxFlangeOffset=(float)(delayL.size()>1?delayL.size()-1:1);
+        size_t flangeOffset=(size_t)std::clamp(flangeSeconds,1.f,maxFlangeOffset);
         size_t flangeRead=((size_t)delayPos+delayL.size()-flangeOffset)%delayL.size();
         float fL=pL+delayL[flangeRead]*readParam(Flanger,.15f)*.65f;
         float fR=pR+delayR[flangeRead]*readParam(Flanger,.15f)*.65f;
@@ -136,7 +137,7 @@ tresult PLUGIN_API Processor::setState(IBStream* s) {
 }
 tresult PLUGIN_API Processor::getState(IBStream* s) {
     if(!s)return kInvalidArgument;
-    int32 n=(int32)p.size(); if(s->write(&n,sizeof(n))!=kResultOk)return kResultFalse;
+    int32 n=(int32)p.size(); if(s->write(&n,sizeof(n))!=kResultFalse;
     return s->write(p.data(),sizeof(double)*p.size());
 }
 }
